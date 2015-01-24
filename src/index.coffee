@@ -15,7 +15,7 @@ global.engine = {
     init : () ->
         that = this
         @renderer = new THREE.WebGLRenderer()
-        #renderer.setPixelRatio( window.devicePixelRatio )
+        @renderer.setPixelRatio( window.devicePixelRatio )
         @renderer.setSize( @viewportElement.width(), @viewportElement.height() )
         @viewportElement.append( @renderer.domElement )
         @camera = new THREE.PerspectiveCamera( 70, @viewportElement.width() / @viewportElement.height(), 1, 100000)
@@ -25,38 +25,35 @@ global.engine = {
         @camera.lookAt(new THREE.Vector3())
         @controls = new OrbitControls(@camera)
         @scene = new THREE.Scene()
+        #Load the model into the scene
         loader = new THREE.JSONLoader();
-        loader.load( "./OikeaKuutio.js", ( geometry, material ) ->
+        loader.load( "./assets/Cobblestonekuutio/StoneKuutio.js", ( geometry, material ) ->
             console.log(material)
-            that.assignUVs(geometry) if (geometry.faceVertexUvs[0].length == 0 && material[0].map != undefined)
+            that.assignUVs(geometry) if (geometry.faceVertexUvs[0].length == 0 && material[0].map != undefined) #TODO: loop through all materials
             materials = new THREE.MeshFaceMaterial(material);
             mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( material ) )
             mesh.scale.set( 10, 10, 10 )
             that.scene.add( mesh )
         )
+        #add the lights
         ambientLight = new THREE.AmbientLight( 0x404040 )
         @scene.add( ambientLight )
-    
         @lightAnchor = new THREE.Object3D()
         @scene.add(@lightAnchor)
-    
         pointLightRedContainer = new THREE.Mesh(new THREE.SphereGeometry( 5, 32, 32 ), new THREE.MeshBasicMaterial( {color:0xff0000} ))
         pointLightRedContainer.position.set( 500, 500, 500 );
         @lightAnchor.add(pointLightRedContainer)
-    
         pointLightGreenContainer = new THREE.Mesh(new THREE.SphereGeometry( 5, 32, 32 ), new THREE.MeshBasicMaterial( {color:0x00ff00} ))
         pointLightGreenContainer.position.set( -500, -500, -500 );
         @lightAnchor.add(pointLightGreenContainer)
-    
         pointLightRed = new THREE.PointLight( 0xff0000, 1, 0 )
         pointLightRedContainer.add(pointLightRed)
-    
         pointLightGreen = new THREE.PointLight( 0x00ff00, 1, 1000 )
         pointLightGreenContainer.add(pointLightGreen)
-    
+        #Add the event listeners and kick of animation loop
         window.addEventListener( 'resize', -> global.engine.onWindowResize.apply(that) )
         @animate()
-        @initialized()
+        console.log(@initialized())
 
     onWindowResize : () ->
         @camera.aspect = @viewportElement.width() / @viewportElement.height()
