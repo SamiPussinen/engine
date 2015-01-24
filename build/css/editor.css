@@ -1,0 +1,20 @@
+html {
+	margin: 0;
+	height: 100%
+}
+
+body {
+	margin: 0;
+	height: 100%;
+	background-image: url("images/blueprint.jpg");
+	background-repeat: repeat;
+}
+
+#viewport-element {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+}
