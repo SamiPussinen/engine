@@ -1,5 +1,7 @@
 # {proto}
 
+[![Join the chat at https://gitter.im/SamiPussinen/engine](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SamiPussinen/engine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Javascript development web app for quick prototyping.
 
 ## How to run it
